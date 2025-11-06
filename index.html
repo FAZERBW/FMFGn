@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#3b82f6" />
+    <title>FM WMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react/": "https://aistudiocdn.com/react@^19.2.0/",
+          "react": "https://aistudiocdn.com/react@^19.2.0",
+          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+          "firebase/": "https://aistudiocdn.com/firebase@^12.5.0/"
+        }
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+      /* --- AURA UI DESIGN SYSTEM --- */
+      :root {
+        --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        
+        /* Radii */
+        --radius-sm: 0.375rem; /* 6px */
+        --radius: 0.75rem;    /* 12px */
+        --radius-lg: 1rem;   /* 16px */
+        --radius-xl: 1.5rem;   /* 24px */
+        --radius-full: 9999px;
+
+        /* Transitions */
+        --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* --- COLOR THEMES --- */
+      html {
+        /* Base Colors */
+        --blue-500: 59 130 246;
+        --purple-500: 139 92 246;
+        --green-500: 34 197 94;
+        --red-500: 239 68 68;
+        --yellow-500: 234 179 8;
+        --pink-500: 236 72 153;
+
+        --primary-base: var(--blue-500);
+      }
+
+      /* Solar Light Theme */
+      html.theme-solar {
+        --bg: #F8F9FC;      /* Off White */
+        --surface: #FFFFFF;   /* Pure White */
+        --surface-muted: #F1F3F9; /* Light Gray */
+        --border: #E5E7EB;    /* Gray 200 */
+        --border-hover: #D1D5DB; /* Gray 300 */
+        --text-primary: #111827; /* Gray 900 */
+        --text-secondary: #4B5563; /* Gray 600 */
+        --text-tertiary: #9CA3AF; /* Gray 400 */
+        --shadow-color: 203 213 225;
+        --glass-bg: rgb(255 255 255 / 0.6);
+        --aurora-opacity: 0.2;
+      }
+
+      /* Lunar Dark Theme */
+      html.theme-lunar {
+        --bg: #0B1120;       /* Deep Navy */
+        --surface: #192033;    /* Dark Surface */
+        --surface-muted: #242C41; /* Darker Muted */
+        --border: #374151;     /* Gray 700 */
+        --border-hover: #4B5563; /* Gray 600 */
+        --text-primary: #F9FAFB;  /* Off White */
+        --text-secondary: #9CA3AF; /* Gray 400 */
+        --text-tertiary: #4B5563;  /* Gray 600 */
+        --shadow-color: 0 0 0;
+        --glass-bg: rgb(25 32 51 / 0.5);
+        --aurora-opacity: 0.3;
+      }
+      
+      /* Define variables from base colors */
+      html {
+        color-scheme: light dark;
+        --app-bg: var(--bg);
+        --app-surface: var(--surface);
+        --app-surface-muted: var(--surface-muted);
+        --app-border: var(--border);
+        --app-border-hover: var(--border-hover);
+        --app-text-primary: var(--text-primary);
+        --app-text-secondary: var(--text-secondary);
+        --app-text-tertiary: var(--text-tertiary);
+        
+        --primary: rgb(var(--primary-base));
+        --primary-hover: rgb(var(--primary-base) / 0.85);
+        --primary-light: rgb(var(--primary-base) / 0.1);
+        --primary-text: #ffffff;
+        
+        --success: rgb(var(--green-500));
+        --danger: rgb(var(--red-500));
+        --warning: rgb(var(--yellow-500));
+        --success-light: rgb(var(--green-500) / 0.1);
+        --danger-light: rgb(var(--red-500) / 0.1);
+
+        --shadow-lg: 0 10px 15px -3px rgb(var(--shadow-color) / 0.07), 0 4px 6px -4px rgb(var(--shadow-color) / 0.07);
+      }
+      
+      /* Base styles */
+      body {
+        font-family: var(--font-sans);
+        background-color: var(--app-bg);
+        color: var(--app-text-primary);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overscroll-behavior-y: none;
+      }
+
+      /* Animation keyframes */
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+      @keyframes slide-in-up { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+      @keyframes slide-out-down { to { transform: translateY(24px); opacity: 0; } }
+      @keyframes scale-in { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+      @keyframes shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+        40%, 60% { transform: translate3d(4px, 0, 0); }
+      }
+      @keyframes subtle-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+      @keyframes aurora-bg {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+      .animate-fade-out { animation: fadeOut 0.3s ease-in forwards; }
+      .animate-slide-in-up { animation: slide-in-up 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      .animate-slide-out-down { animation: slide-out-down 0.3s cubic-bezier(0.5, 0, 0.75, 0) forwards; }
+      .animate-scale-in { animation: scale-in 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      .animate-shake { animation: shake 0.7s cubic-bezier(.36,.07,.19,.97) both; }
+      .animate-subtle-float { animation: subtle-float 6s ease-in-out infinite; }
+
+      /* Aurora Background */
+      .aurora-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: var(--aurora-opacity);
+        background: linear-gradient(125deg, rgb(var(--blue-500)), rgb(var(--pink-500)), rgb(var(--purple-500)));
+        background-size: 400% 400%;
+        animation: aurora-bg 15s ease infinite;
+        transition: opacity 0.5s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
