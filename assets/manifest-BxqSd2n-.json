@@ -1,0 +1,27 @@
+{
+  "name": "FM WMS (Warranty Management System)",
+  "short_name": "FM WMS",
+  "description": "A bilingual, theme-customizable warranty management system for LED bulb sales, claims, and inventory — built for Prince Auto Parts.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b6ef6",
+  "orientation": "portrait",
+  "lang": "en-IN",
+  "scope": "/",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
